@@ -1,0 +1,4 @@
+[] add calculator
+[] add result and restart
+[] add logins
+[] get text stings from the net
