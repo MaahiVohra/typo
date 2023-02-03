@@ -1,4 +1,4 @@
 [] add calculator
 [] add result and restart
 [] add logins
-[] get text stings from the net
+[x] get text stings from the net : made a text file instead
