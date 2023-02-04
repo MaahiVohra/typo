@@ -12,25 +12,42 @@ function App() {
 	useEffect(() => {
 		setTextonScreen(textArray);
 	}, []);
-	async function chooseRandomWords() {
-		await setWordloader((prev) => !prev);
-		setCorrectLetters([]);
+	function reset() {
+		setWordloader((prev) => !prev);
 		setCorrectLetters([]);
 		setCurrentLetterIndex(0);
 		setTextonScreen(textArray);
+		stopTimer();
 	}
 
 	const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
 	const [correctLetters, setCorrectLetters] = useState<Number[]>([]);
-
+	const [intervalId, setIntervalId] = useState(null);
+	const [started, setStarted] = useState(false);
+	const [time, setTime] = useState(10);
+	const startTimer = () => {
+		if (!started) {
+			const id = setInterval(() => {
+				setTime((time) => time - 1);
+			}, 1000);
+			setIntervalId(id as any);
+			setStarted(true);
+		}
+	};
+	const stopTimer = () => {
+		clearInterval(intervalId as any);
+		setIntervalId(null);
+		setStarted(false);
+		setTime(10);
+	};
 	//used to autofocus on the text string
 	const inputRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		inputRef.current?.focus();
 	}, []);
-
 	//controls the input key press
 	function controller(e: any) {
+		startTimer();
 		e.preventDefault();
 		if (e.key.length === 1) {
 			if (e.key === textArray[currentLetterIndex]) {
@@ -68,26 +85,53 @@ function App() {
 		console.log("	");
 	}
 	return (
-		<div className="App" onKeyDown={controller} tabIndex={1} ref={inputRef}>
-			<span className="cursor">|</span>
-			{textonScreen &&
-				textArray.map((text, index: number) => {
-					return (
-						<span
-							style={{ color: getColor(index) }}
-							className={
-								currentLetterIndex === index
-									? "active"
-									: undefined
-							}
-							key={index}
-						>
-							{text}
-						</span>
-					);
-				})}
-			<button onClick={chooseRandomWords}>reset</button>
-			<button onClick={showstuff}>show</button>
+		<div className="App">
+			<main>
+				{time < 0 ? (
+					<section>
+						<div>WPM : {Math.round(correctLetters.length / 5)}</div>
+						<div>
+							<span>{correctLetters.length}</span>/
+							<span style={{ color: "yellow" }}>
+								{currentLetterIndex - correctLetters.length}
+							</span>
+						</div>
+						<div>
+							Accuracy :{" "}
+							{(
+								(correctLetters.length / currentLetterIndex) *
+								100
+							).toFixed(3)}
+						</div>
+						<button onClick={reset}>reset</button>
+					</section>
+				) : (
+					<section onKeyDown={controller} tabIndex={1} ref={inputRef}>
+						<div>
+							{Math.round(correctLetters.length / 5)} , {time}
+						</div>
+						<span className="cursor">|</span>
+						{textonScreen &&
+							textArray.map((text, index: number) => {
+								return (
+									<span
+										style={{ color: getColor(index) }}
+										className={
+											currentLetterIndex === index
+												? "active"
+												: undefined
+										}
+										key={index}
+									>
+										{text}
+									</span>
+								);
+							})}
+						<button onClick={reset}>reset</button>
+						<button onClick={showstuff}>show</button>
+					</section>
+				)}
+			</main>
 		</div>
 	);
 }
