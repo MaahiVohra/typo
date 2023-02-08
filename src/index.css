@@ -30,7 +30,7 @@ body {
 	min-width: 320px;
 	min-height: 100vh;
 	font-size: x-large;
-	letter-spacing: 0.25rem;
+	/* letter-spacing: 0.25rem; */
 }
 
 h1 {
@@ -71,4 +71,16 @@ button:focus-visible {
 }
 .App:focus {
 	outline: none !important;
+}
+
+.active {
+	border-left: solid 2px white !important;
+}
+.letter {
+	border-left: solid 2px #242424;
+	padding: 0.125rem;
+}
+button.active-tab {
+	background-color: white !important;
+	color: black !important;
 }
