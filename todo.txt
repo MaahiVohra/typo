@@ -2,3 +2,6 @@
 [x] add result and restart
 [] add logins
 [x] get text stings from the net : made a text file instead
+[x] add cursor animation
+[x] added tabs for words and sentences
+[] update design

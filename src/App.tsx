@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import { getWords } from "./words";
 const NO_OF_WORDS = 10;
 function App() {
+	const [tab, setTab] = useState("word");
 	const [wordloader, setWordloader] = useState(true);
 	var textArray: string[] = useMemo(
-		() => getWords(NO_OF_WORDS),
-		[wordloader]
+		() => getWords(NO_OF_WORDS, tab),
+		[wordloader, tab]
 	);
 	const [textonScreen, setTextonScreen] = useState<String[]>([]);
 	useEffect(() => {
@@ -44,9 +45,9 @@ function App() {
 	const inputRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		inputRef.current?.focus();
-	}, []);
+	}, [tab, started]);
 	//controls the input key press
-	function controller(e: any) {
+	function controller(e: React.KeyboardEvent) {
 		startTimer();
 		e.preventDefault();
 		if (e.key.length === 1) {
@@ -77,6 +78,7 @@ function App() {
 		if (index >= currentLetterIndex) return "gray";
 		else return "yellow";
 	}
+	//testing stuff
 	function showstuff(e: any = null) {
 		console.log("	");
 		console.log(currentLetterIndex);
@@ -84,9 +86,37 @@ function App() {
 		console.log(e);
 		console.log("	");
 	}
+
+	//handles the type of text
+	function handleTabChange(e: React.MouseEvent) {
+		const { target } = e;
+		reset();
+		// to access target in context of HTML use HTMLButtonElement
+		if ((target as HTMLButtonElement).id !== tab)
+			setTab((prev) => (target as HTMLButtonElement).id);
+	}
+
 	return (
 		<div className="App">
 			<main>
+				<div>
+					<button
+						className={tab === "word" ? "active-tab" : undefined}
+						id="word"
+						onClick={(e) => handleTabChange(e)} // handletabchange returns void so have to put it inside an arrow function
+					>
+						Word
+					</button>
+					<button
+						className={
+							tab === "sentence" ? "active-tab" : undefined
+						}
+						id="sentence"
+						onClick={(e) => handleTabChange(e)}
+					>
+						Sentence
+					</button>
+				</div>
 				{time < 0 ? (
 					<section>
 						<div>WPM : {Math.round(correctLetters.length / 5)}</div>
@@ -106,11 +136,15 @@ function App() {
 						<button onClick={reset}>reset</button>
 					</section>
 				) : (
-					<section onKeyDown={controller} tabIndex={1} ref={inputRef}>
+					<section
+						onKeyDown={controller}
+						tabIndex={1}
+						ref={inputRef}
+						className="App"
+					>
 						<div>
 							{Math.round(correctLetters.length / 5)} , {time}
 						</div>
-						<span className="cursor">|</span>
 						{textonScreen &&
 							textArray.map((text, index: number) => {
 								return (
@@ -118,8 +152,8 @@ function App() {
 										style={{ color: getColor(index) }}
 										className={
 											currentLetterIndex === index
-												? "active"
-												: undefined
+												? "active" + " letter"
+												: "letter"
 										}
 										key={index}
 									>
@@ -128,7 +162,6 @@ function App() {
 								);
 							})}
 						<button onClick={reset}>reset</button>
-						<button onClick={showstuff}>show</button>
 					</section>
 				)}
 			</main>

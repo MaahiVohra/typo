@@ -2,11 +2,15 @@ type text = {
 	word: string;
 	sentence: string;
 };
-export function getWords(length: number = 100) {
+export function getWords(length: number = 100, tabname = "word") {
 	const array = [];
 	while (length--) {
 		const randomIndex = Math.floor(Math.random() * words.length);
-		const word = words[randomIndex].word.split("");
+		if (tabname === "word") {
+			var word = words[randomIndex].word.split("");
+		} else {
+			var word = words[randomIndex].sentence.split("");
+		}
 		word.forEach((letter) => {
 			array.push(letter);
 		});
