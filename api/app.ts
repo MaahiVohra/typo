@@ -8,13 +8,13 @@ import { Auth } from "./routes/auth";
 export const prisma = new PrismaClient();
 export const app = express();
 const port = process.env.PORT || 5173;
-app.use(express.static(path.join(__dirname, "../dist")));
-
+app.use(express.static(path.join(__dirname, "../../dist")));
+console.log(path.join(__dirname, "../../dist/index.html"));
 // app.get("*", (req, res) => {
 // 	res.sendFile(path.join(__dirname, "../public", "index.html"));
 // });
 app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "../dist", "/index.html"));
+	res.sendFile(path.join(__dirname, "../../dist", "/index.html"));
 });
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -34,7 +34,7 @@ app.options("*", (req, res) => {
 	res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 	res.status(200).send();
 });
-app.get("/api/app", (req, res) => {
+app.get("/api", (req, res) => {
 	res.send("Hello from the API!");
 });
 

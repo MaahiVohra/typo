@@ -4,8 +4,8 @@
 	"private": true,
 	"main": "../api/app.ts",
 	"scripts": {
-		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q app.ts\"",
-		"build": "npx tsc",
+		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/app.js\"",
+		"build": "npm install && npx tsc ",
 		"start": "node dist/app.js"
 	},
 	"dependencies": {
