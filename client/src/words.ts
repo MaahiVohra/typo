@@ -2,8 +2,9 @@ type text = {
 	word: string;
 	sentence: string;
 };
-export function getWords(length: number = 100, tabname = "word") {
-	const array = [];
+export function getWords(length = 40, tabname = "word") {
+	const array: string[] = [];
+	if (tabname == "sentence") length = length / 5;
 	while (length--) {
 		const randomIndex = Math.floor(Math.random() * words.length);
 		if (tabname === "word") {

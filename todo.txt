@@ -1,7 +1,17 @@
 [x] add calculator
 [x] add result and restart
-[] add logins
+[x] add logins
 [x] get text stings from the net : made a text file instead
 [x] add cursor animation
 [x] added tabs for words and sentences
-[] update design
+[x] update design
+[x] login endpoint
+[x] register endpoint
+[x] return data for curr user
+[] leaderboard endpoint
+[x] useeffect to check if user has a token
+[x] use cookies - universal cookies
+[x] on login update the score if its higher
+[] on login show the profile page
+[] profile page
+[] leaderboard page
