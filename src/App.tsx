@@ -198,7 +198,7 @@ function App() {
 			body: JSON.stringify(formData),
 		};
 
-		return await fetch(`/api/v0/auth/${url}`, requestOptions)
+		return await fetch(`/api/${url}`, requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
 				console.log(result);
