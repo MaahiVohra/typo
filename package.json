@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "npm install && (tsc && vite build) && npm start",
-		"start": "cd api && (npm install && npm run dev)",
+		"start": "cd api && (npm install && npm run build)",
 		"preview": "vite preview"
 	},
 	"dependencies": {
