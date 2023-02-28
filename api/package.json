@@ -5,7 +5,7 @@
 	"main": "../api/app.ts",
 	"scripts": {
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q app.ts\"",
-		"build": "npx tsc && node dist/app.js"
+		"build": "tsc"
 	},
 	"dependencies": {
 		"@prisma/client": "^4.10.1",
