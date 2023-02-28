@@ -34,7 +34,7 @@ app.options("*", (req, res) => {
 	res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 	res.status(200).send();
 });
-app.get("/api", (req, res) => {
+app.get("/api/app", (req, res) => {
 	res.send("Hello from the API!");
 });
 
@@ -45,9 +45,9 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
 // login routes
-app.use("/v0/auth/register", registerRouter);
-app.use("/api/v0/auth/login", loginRouter);
-app.use("/v0/auth/update", Auth, updateRouter);
+app.use("/routes/register", registerRouter);
+app.use("/routes/login", loginRouter);
+app.use("/routes/update", Auth, updateRouter);
 app.listen(port, () => {
 	console.log("listening at port ", port);
 });
