@@ -45,9 +45,9 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
 // login routes
-app.use("/routes/register", registerRouter);
-app.use("/routes/login", loginRouter);
-app.use("/routes/update", Auth, updateRouter);
+app.use("/api/routes/register", registerRouter);
+app.use("/api/routes/login", loginRouter);
+app.use("/api/routes/update", Auth, updateRouter);
 app.listen(port, () => {
 	console.log("listening at port ", port);
 });

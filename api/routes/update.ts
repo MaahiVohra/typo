@@ -1,6 +1,9 @@
 import express from "express";
 import { prisma, app } from "../app";
 export const updateRouter = express.Router();
+updateRouter.get("/", function (req, res) {
+	res.send("Hello from update");
+});
 updateRouter.post("/", (req, res) => {
 	console.log(req.body);
 	prisma.user
