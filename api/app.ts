@@ -48,7 +48,7 @@ app.set("view engine", "jade");
 app.use("/v0/auth/register", registerRouter);
 app.use("/api/v0/auth/login", loginRouter);
 app.use("/v0/auth/update", Auth, updateRouter);
-app.listen(5173, () => {
+app.listen(port, () => {
 	console.log("listening at port ", port);
 });
 module.exports = app;
