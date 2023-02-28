@@ -7,8 +7,15 @@ import { PrismaClient } from "@prisma/client";
 import { Auth } from "./routes/auth";
 export const prisma = new PrismaClient();
 export const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 5173;
+app.use(express.static(path.join(__dirname, "../dist")));
 
+// app.get("*", (req, res) => {
+// 	res.sendFile(path.join(__dirname, "../public", "index.html"));
+// });
+app.get("/", (req, res) => {
+	res.sendFile(path.join(__dirname, "../dist", "/index.html"));
+});
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.setHeader(
@@ -27,6 +34,9 @@ app.options("*", (req, res) => {
 	res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 	res.status(200).send();
 });
+app.get("/api", (req, res) => {
+	res.send("Hello from the API!");
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,10 +45,10 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
 // login routes
-app.use("/api/auth/register", registerRouter);
-app.use("/api/auth/login", loginRouter);
-app.use("/api/auth/update", Auth, updateRouter);
-app.listen(port, () => {
+app.use("/v0/auth/register", registerRouter);
+app.use("/api/v0/auth/login", loginRouter);
+app.use("/v0/auth/update", Auth, updateRouter);
+app.listen(5173, () => {
 	console.log("listening at port ", port);
 });
 module.exports = app;

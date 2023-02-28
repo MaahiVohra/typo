@@ -3,6 +3,9 @@ import express from "express";
 import { prisma, app } from "../app";
 import bcrypt from "bcrypt";
 export const loginRouter = express.Router();
+loginRouter.get("/", function (req, res) {
+	res.status(200).send("Hello from login server");
+});
 loginRouter.post("/", async (req, res) => {
 	const userScore = await prisma.user
 		.findUnique({

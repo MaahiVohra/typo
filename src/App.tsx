@@ -4,7 +4,6 @@ import React from "react";
 import { VscDebugRestart } from "react-icons/vsc";
 import "./App.css";
 import { getWords } from "./words";
-const url = "http://localhost:3000/auth/api/login";
 type Response = {
 	user: string;
 	token: string;
@@ -199,10 +198,7 @@ function App() {
 			body: JSON.stringify(formData),
 		};
 
-		return await fetch(
-			`http://localhost:3001/api/auth/${url}`,
-			requestOptions
-		)
+		return await fetch(`/api/v0/auth/${url}`, requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
 				console.log(result);
