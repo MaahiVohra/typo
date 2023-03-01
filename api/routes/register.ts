@@ -9,9 +9,20 @@ registerRouter.get("/", function (req, res) {
 registerRouter.post("/", function (req, res, next) {
 	bcrypt
 		.hash(req.body.password, 10)
-		.then((hashedPassword) => {
+		.then(async (hashedPassword) => {
+			const user = await prisma.user.findUnique({
+				where: {
+					email: req.body.email,
+				},
+			});
+			if (user) {
+				res.status(409).send({
+					message: "User already exists",
+				});
+				return;
+			}
 			// create a new user instance and collect the data
-			const user = prisma.user
+			prisma.user
 				.create({
 					data: {
 						email: req.body.email,

@@ -4,9 +4,9 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "cd api && npm run start",
-		"build": "npm install && (tsc && vite build) && npm start",
-		"start": "cd api && npm run build",
+		"dev": "vite",
+		"start": "cd api && npm start",
+		"build": "npm install && (tsc && vite build) && (cd api && npm run build)",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -25,6 +25,7 @@
 		"@types/react": "^18.0.27",
 		"@types/react-dom": "^18.0.10",
 		"@vitejs/plugin-react": "^3.1.0",
+		"prisma": "^4.10.1",
 		"typescript": "^4.9.3",
 		"vite": "^4.1.0"
 	}

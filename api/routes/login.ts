@@ -19,7 +19,7 @@ loginRouter.post("/", async (req, res) => {
 				.then((passwordCheck) => {
 					if (!passwordCheck) {
 						return res.status(400).send({
-							message: "Passwords does not match",
+							message: "Wrong Email or Password",
 						});
 					}
 
@@ -44,16 +44,18 @@ loginRouter.post("/", async (req, res) => {
 				})
 				.catch((err) => {
 					res.status(400).send({
-						message: "Passwords does not match",
+						message: "Wrong Email or Password",
 						err,
 					});
 				});
 			return user!.score;
 		})
 		.catch((err) => {
-			res.status(404).send({ message: "Email not found", err });
+			res.status(404).send({
+				message: "Wrong Email or Password",
+				err: err,
+			});
 		});
-	console.log(userScore, req.body.score);
 	if (userScore < req.body.score) {
 		prisma.user
 			.update({
@@ -65,7 +67,7 @@ loginRouter.post("/", async (req, res) => {
 				},
 			})
 			.then((user) => {
-				console.log(user, userScore);
+				return user;
 			})
 			.catch((err) => {
 				console.error(err);

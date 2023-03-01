@@ -4,14 +4,9 @@ import React from "react";
 import { VscDebugRestart } from "react-icons/vsc";
 import "./App.css";
 import { getWords } from "./words";
-type Response = {
-	user: string;
-	token: string;
-	score: number;
-};
 
 function App() {
-	const NO_OF_WORDS = 5;
+	const NO_OF_WORDS = 35;
 	const [tab, setTab] = useState("word");
 	const [wordloader, setWordloader] = useState(true);
 	var textArray: string[] = useMemo(
@@ -47,13 +42,12 @@ function App() {
 	const [token, setToken] = useState(cookies["TOKEN"] || null);
 	const [user, setUser] = useState(cookies["USER"] || null);
 	const [loggedIn, setLoggedIn] = useState(token ? true : false);
-	// const [score, setScore] = useState(0);
+	const [error, setError] = useState("");
 	const [highScore, setHighScore] = useState(cookies["HIGH_SCORE"] || 0);
 	const startTimer = () => {
 		if (!started) {
 			const id = setInterval(() => {
 				setTime((time) => time + 1);
-				console.log(time);
 			}, 1000);
 
 			setIntervalId(id as any);
@@ -137,6 +131,7 @@ function App() {
 			setRegisterModal(true);
 		}
 		if ((target as HTMLButtonElement).id === "modal-close") {
+			setError("");
 			setRegisterModal(false);
 			setLoginModal(false);
 		}
@@ -150,10 +145,16 @@ function App() {
 				password: passwordRef.current?.value,
 				score: Math.round((correctLetters.length / 5) * (60 / time)),
 			};
-			const responseData: Response | null = await performFetch({
+			const responseData = await performFetch({
 				url,
 				formData,
-			});
+			})
+				.then((response) => {
+					return response;
+				})
+				.catch((error) => {
+					console.error(error);
+				});
 			if (responseData) {
 				setHighScore(responseData.score);
 				setRegisterModal(false);
@@ -164,6 +165,7 @@ function App() {
 				setCookies("USER", responseData.user);
 				setCookies("HIGH_SCORE", responseData.score);
 				setLoggedIn(true);
+				setError("");
 			}
 		} catch (error) {
 			console.error(error);
@@ -198,15 +200,20 @@ function App() {
 			body: JSON.stringify(formData),
 		};
 
+		// development
+		// return await fetch(`http://localhost:5174/api/${url}`, requestOptions)
+		// production
 		return await fetch(`/api/${url}`, requestOptions)
-			.then((response) => response.json())
-			.then((result) => {
-				console.log(result);
-				return result;
+			.then(async (response) => {
+				if (response.status !== 200) {
+					const data = await response.json();
+					setError(data.message);
+					return null;
+				}
+				return response.json();
 			})
 			.catch((error) => {
-				console.log("error", error);
-				return null;
+				return error;
 			});
 	}
 	function logout() {
@@ -405,6 +412,7 @@ function App() {
 									placeholder="Password"
 									ref={passwordRef}
 								/>
+								{error && <div className="error">{error}</div>}
 								<button type="submit">
 									{loginModal ? "Login" : "Register"}
 								</button>

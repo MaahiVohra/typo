@@ -7,14 +7,11 @@ import { PrismaClient } from "@prisma/client";
 import { Auth } from "./routes/auth";
 export const prisma = new PrismaClient();
 export const app = express();
-const port = process.env.PORT || 5173;
+const port = process.env.PORT || 5174;
 app.use(express.static(path.join(__dirname, "../../dist")));
-console.log(path.join(__dirname, "../../dist/index.html"));
-// app.get("*", (req, res) => {
-// 	res.sendFile(path.join(__dirname, "../public", "index.html"));
-// });
+console.log(path.join(__dirname, "../../"));
 app.get("/", (req, res) => {
-	res.sendFile(path.join(__dirname, "../../dist", "/index.html"));
+	res.sendFile(path.join(__dirname, "../../dist", "index.html"));
 });
 app.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
