@@ -60,7 +60,9 @@ function App() {
 		setStarted(false);
 		// updateScore(Math.round((correctLetters.length / 5) * (60 / time)));
 	};
-
+	useEffect(() => {
+		if (time >= 11) stopTimer();
+	}, [time]);
 	//used to autofocus on the text string
 	const inputRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
@@ -102,14 +104,6 @@ function App() {
 		if (correctLetters.includes(index)) return "white";
 		if (index >= currentLetterIndex) return "gray";
 		else return "yellow";
-	}
-	//testing stuff
-	function showstuff(e: any = null) {
-		console.log("	");
-		console.log(currentLetterIndex);
-		console.log(textArray);
-		console.log(e);
-		console.log("	");
 	}
 
 	//handles the type of text
@@ -258,8 +252,7 @@ function App() {
 								<span className="score">{highScore}</span>
 								<button
 									className="btn logout-btn"
-									onClick={logout}
-								>
+									onClick={logout}>
 									Logout
 								</button>
 							</li>
@@ -268,15 +261,13 @@ function App() {
 								<button
 									id="login-btn"
 									className="login-btn"
-									onClick={(e) => handleModal(e)}
-								>
+									onClick={(e) => handleModal(e)}>
 									Login
 								</button>
 								<button
 									id="register-btn"
 									className="register-btn"
-									onClick={(e) => handleModal(e)}
-								>
+									onClick={(e) => handleModal(e)}>
 									Register
 								</button>
 							</li>
@@ -300,15 +291,14 @@ function App() {
 								tab === "sentence" ? "active-tab tab" : "tab"
 							}
 							id="sentence"
-							onClick={(e) => handleTabChange(e)}
-						>
+							onClick={(e) => handleTabChange(e)}>
 							Sentence
 						</div>
 						<div className="tab" onClick={reset}>
 							<VscDebugRestart />
 						</div>
 					</div>
-					{time > 60 || currentLetterIndex >= textArray.length ? (
+					{time >= 11 || currentLetterIndex > textArray.length ? (
 						<section className="App">
 							<div className="wpm">
 								WPM :{" "}
@@ -341,8 +331,7 @@ function App() {
 										id="login-btn"
 										onClick={(e) => {
 											handleModal(e);
-										}}
-									>
+										}}>
 										Login
 									</span>{" "}
 									to save your score
@@ -354,8 +343,7 @@ function App() {
 							onKeyDown={controller}
 							tabIndex={1}
 							ref={inputRef}
-							className="App"
-						>
+							className="App">
 							<div className="wpm">
 								{Math.round(
 									(correctLetters.length / 5) * (60 / time)
@@ -372,8 +360,7 @@ function App() {
 													? "active" + " letter"
 													: "letter"
 											}
-											key={index}
-										>
+											key={index}>
 											{text}
 										</span>
 									);
@@ -386,15 +373,13 @@ function App() {
 						<div className="login-modal">
 							<button
 								id="modal-close"
-								onClick={(e) => handleModal(e)}
-							>
+								onClick={(e) => handleModal(e)}>
 								X
 							</button>
 							<h3>{loginModal ? "Login" : "Register"}</h3>
 							<form
 								id={loginModal ? "login" : "register"}
-								onSubmit={loginModal ? login : register}
-							>
+								onSubmit={loginModal ? login : register}>
 								{registerModal && (
 									<input
 										type="text"
@@ -422,8 +407,7 @@ function App() {
 										<span
 											className="login-sm"
 											id="register-btn"
-											onClick={(e) => handleModal(e)}
-										>
+											onClick={(e) => handleModal(e)}>
 											Register
 										</span>
 									</p>
@@ -433,8 +417,7 @@ function App() {
 										<span
 											className="login-sm"
 											id="login-btn"
-											onClick={(e) => handleModal(e)}
-										>
+											onClick={(e) => handleModal(e)}>
 											Login
 										</span>
 									</p>

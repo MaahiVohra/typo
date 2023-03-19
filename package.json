@@ -4,8 +4,8 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
 		"start": "cd api && npm start",
+		"dev": "(tsc && vite build) && (cd api && npm start)",
 		"build": "npm install && (tsc && vite build) && (cd api && npm run build)",
 		"preview": "vite preview"
 	},

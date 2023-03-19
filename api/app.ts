@@ -5,6 +5,7 @@ import { loginRouter } from "./routes/login";
 import { updateRouter } from "./routes/update";
 import { PrismaClient } from "@prisma/client";
 import { Auth } from "./routes/auth";
+
 export const prisma = new PrismaClient();
 export const app = express();
 const port = process.env.PORT || 5174;
