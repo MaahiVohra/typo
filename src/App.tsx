@@ -62,7 +62,8 @@ function App() {
 	};
 	useEffect(() => {
 		if (time >= 61) stopTimer();
-	}, [time]);
+		if (currentLetterIndex >= textArray.length - 1) stopTimer()
+	}, [time, currentLetterIndex]);
 	//used to autofocus on the text string
 	const inputRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
@@ -298,7 +299,7 @@ function App() {
 							<VscDebugRestart />
 						</div>
 					</div>
-					{time >= 61 || currentLetterIndex > textArray.length ? (
+					{time >= 61 || currentLetterIndex >= textArray.length ? (
 						<section className="App">
 							<div className="wpm">
 								WPM :{" "}
